@@ -46,18 +46,18 @@ namespace SqlHelper
 		//************************************
 		// Method:    GetInstance
 		// Returns:   MysqlAccessHelper*
-		// Brief:	»ñÈ¡MysqlÁ¬½ÓÊµÀı
+		// Brief:	è·å–Mysqlè¿æ¥å®ä¾‹
 		//************************************
 		static MysqlAccessHelper* GetInstance();
 
 		//************************************
 		// @Method:    GetConnection
 		// @Returns:   SqlHelper::MysqlAccessHelper::ConnectStates
-		// @Parameter: target Á¬½ÓÖ÷»ú£¬Í¨³£ÎªIPµØÖ·
-		// @Parameter: user ÓÃ»§Ãû
-		// @Parameter: password ÃÜÂë
-		// @Parameter: port ¶Ë¿ÚºÅ
-		// @Brief: ½¨Á¢Êı¾İ¿âÁ¬½Ó
+		// @Parameter: target è¿æ¥ä¸»æœºï¼Œé€šå¸¸ä¸ºIPåœ°å€
+		// @Parameter: user ç”¨æˆ·å
+		// @Parameter: password å¯†ç 
+		// @Parameter: port ç«¯å£å·
+		// @Brief: å»ºç«‹æ•°æ®åº“è¿æ¥
 		//************************************
 		ConnectStates GetConnection(const SqlHelper::SQLString& target, const SqlHelper::SQLString& user,
 			const SqlHelper::SQLString& password, int port = 0);
@@ -65,33 +65,33 @@ namespace SqlHelper
 		//************************************
 		// @Method:    SetSchema
 		// @Returns:   void
-		// @Parameter: schemaName Êı¾İ¿âÃû
-		// @Brief: ÉèÖÃÄ¬ÈÏÊı¾İ¿â
+		// @Parameter: schemaName æ•°æ®åº“å
+		// @Brief: è®¾ç½®é»˜è®¤æ•°æ®åº“
 		//************************************
 		void SetSchema(const SqlHelper::SQLString& schemaName);
 
 		//************************************
 		// @Method:    Update
-		// @Returns:   bool ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
+		// @Returns:   bool æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
 		// @Parameter: updateQuery
-		// @Brief: ¸üĞÂ±í¼ÇÂ¼£¬
+		// @Brief: æ›´æ–°è¡¨è®°å½•ï¼Œ
 		//************************************
 		bool Update(const SqlHelper::SQLString& updateQuery);
 
 		
 		//************************************
 		// @Method:    Delete
-		// @Returns:   bool ³É¹¦·µ»ØTrue£¬·ñÔò·µ»Øfalse
+		// @Returns:   bool æˆåŠŸè¿”å›Trueï¼Œå¦åˆ™è¿”å›false
 		// @Parameter: deleteQuery
-		// @Brief:	É¾³ı±í¼ÇÂ¼
+		// @Brief:	åˆ é™¤è¡¨è®°å½•
 		//************************************
 		bool Delete(const SqlHelper::SQLString& deleteQuery);
 
 		//************************************
 		// @Method:    CreateDb
-		// @Returns:   bool ³É¹¦·µtrue£¬Ê§°Ü·µfalse
-		// @Parameter: dbName Êı¾İ¿âÃû
-		// @Brief: ´´½¨Êı¾İ¿â
+		// @Returns:   bool æˆåŠŸè¿”trueï¼Œå¤±è´¥è¿”false
+		// @Parameter: dbName æ•°æ®åº“å
+		// @Brief: åˆ›å»ºæ•°æ®åº“
 		//************************************
 		bool CreateDb(const SqlHelper::SQLString& dbName);
 
@@ -99,15 +99,15 @@ namespace SqlHelper
 		//************************************
 		// @Method:    DropDb
 		// @Returns:   bool
-		// @Parameter: dbName Êı¾İ¿âÃû
-		// @Brief: É¾³ıÊı¾İ¿â
+		// @Parameter: dbName æ•°æ®åº“å
+		// @Brief: åˆ é™¤æ•°æ®åº“
 		//************************************
 		bool DropDb(const SqlHelper::SQLString& dbName);
 
 		//************************************
 		// @Method:    CreateTable
 		// @Returns:   bool
-		// @Parameter: tbQuery ´´½¨Êı¾İ±íµÄDMLQuery
+		// @Parameter: tbQuery åˆ›å»ºæ•°æ®è¡¨çš„DMLQuery
 		// @Brief:
 		//************************************
 		bool CreateTable(const SqlHelper::SQLString& tbQuery);
@@ -116,23 +116,24 @@ namespace SqlHelper
 		// @Method:    DropTable
 		// @Returns:   bool
 		// @Parameter: tbName
-		// @Brief: É¾³ıÊı¾İ±í
+		// @Brief: åˆ é™¤æ•°æ®è¡¨
 		//************************************
 		bool DropTable(const SqlHelper::SQLString& tbName);
 
 		//************************************
 		// @Method:    GetData
-		// @Returns:   MYSQL_RES* ½á¹û¼¯
+		// @Returns:   MYSQL_RES* ç»“æœé›†
 		// @Parameter: dmlQuery
-		// @Brief: »ñÈ¡Êı¾İ±íÊı¾İ£¬ ·µ»Ø½á¹û¼¯
+		// @Brief: è·å–æ•°æ®è¡¨æ•°æ®ï¼Œ è¿”å›ç»“æœé›† 
+		// æ™®é€šçš„éinsert update deleteç­‰æŸ¥è¯¢è¯­å¥çš†å½’äºæ­¤å¦‚select è¯­å¥ã€‚
 		//************************************
 		MYSQL_RES* GetData(const SqlHelper::SQLString& dmlQuery);
 
 		//************************************
 		// @Method:    GetFields
-		// @Returns:   MYSQL_FIELD* ½á¹û¼¯
-		// @Parameter: res Îª½á¹û¼¯
-		// @Brief:	»ñÈ¡½á¹û¼¯µÄ¸÷ÁĞÊôĞÔÃû,
+		// @Returns:   MYSQL_FIELD* ç»“æœé›†
+		// @Parameter: res ä¸ºç»“æœé›†
+		// @Brief:	è·å–ç»“æœé›†çš„å„åˆ—å±æ€§å,
 		//************************************
 		MYSQL_FIELD* GetFields(MYSQL_RES* res);
 
@@ -140,7 +141,7 @@ namespace SqlHelper
 		// @Method:    FetchRow
 		// @Returns:   void
 		// @Parameter: res
-		// @Brief: »ñÈ¡½á¹û¼¯ÖĞµÄ¸÷ĞĞ
+		// @Brief: è·å–ç»“æœé›†ä¸­çš„å„è¡Œ
 		//************************************
 		void FetchRow(MYSQL_RES* res);
 
@@ -148,10 +149,10 @@ namespace SqlHelper
 		//************************************
 		// @Method:    Insert
 		// @Returns:   bool
-		// @Parameter: query DMLQuery Óï¾ä
+		// @Parameter: query DMLQuery è¯­å¥
 		// @Parameter: value 
-		// @Parameter: rest Êı¾İ¼ÇÂ¼
-		// @Brief: ²åÈë¼ÇÂ¼
+		// @Parameter: rest æ•°æ®è®°å½•
+		// @Brief: æ’å…¥è®°å½•
 		//************************************
 		template <typename T, typename... Args>
 		bool Insert(SqlHelper::SQLString query, const T& value, Args... rest)
@@ -258,7 +259,7 @@ namespace SqlHelper
 		// @Returns:   void
 		// @Parameter: val
 		// @Parameter: rest
-		// @Brief: ½âÎö´«Èë²ÎÊı
+		// @Brief: è§£æä¼ å…¥å‚æ•°
 		//************************************
 		template <typename T, typename... Args>
 		void ParseParameter(const T& val, Args... rest)
@@ -271,7 +272,7 @@ namespace SqlHelper
 		// @Method:    ParseParameter
 		// @Returns:   void
 		// @Parameter: val
-		// @Brief:	½âÎö²ÎÊıµÄ·Ç¿É±ä²ÎÊı°æ±¾¡£
+		// @Brief:	è§£æå‚æ•°çš„éå¯å˜å‚æ•°ç‰ˆæœ¬ã€‚
 		//************************************
 		template <typename T>
 		void ParseParameter(const T& val)
