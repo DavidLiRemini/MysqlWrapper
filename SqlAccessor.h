@@ -245,7 +245,7 @@ namespace SqlHelper
 			if (code != 0)
 			{
 				fprintf(stderr, "%s\n", mysql_stmt_error(stmt));
-				mysql_stmt_close();
+				mysql_stmt_close(stmt);
 				delete []bind;
 				return false;
 			}
@@ -253,12 +253,12 @@ namespace SqlHelper
 			if (mysql_stmt_execute(stmt))
 			{
 				fprintf(stderr, "mysql_stmt_execute() %s", mysql_stmt_error(stmt));
-				mysql_stmt_close();
+				mysql_stmt_close(stmt);
 				delete []bind;
 				return false;
 			}
 			mysql_stmt_close(stmt);
-			paramType.clear();
+			
 			return true;
 		}
 
