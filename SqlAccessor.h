@@ -29,7 +29,7 @@ namespace SqlHelper
 		
 		
 		MYSQL* mysql_Instance;
-		std::vector<SqlHelper::SqlDataType>paramType;
+		
 
 		static MysqlAccessHelper* helperInstance;
 		void Initialize();
@@ -155,16 +155,17 @@ namespace SqlHelper
 		// @Brief: 插入记录
 		//************************************
 		template <typename T, typename... Args>
-		bool Insert(SqlHelper::SQLString query, const T& value, Args... rest)
+		bool Insert(const SqlHelper::SQLString& query, const T& value, Args... rest)
 		{
-			ParseParameter(value, rest...);
+			std::vector<SqlHelper::SqlDataType>paramType;
+			ParseParameter(paramType, value, rest...);
 			assert(!paramType.empty());
-
-			std::vector<int>intContainer(5);
-			std::vector<unsigned long>lenghContainer(5);
-			std::vector<double>doubleContainer(5);
-			std::vector<unsigned char>charContainer(5);
-			std::vector<SqlHelper::SQLString>strContainer(5);
+			int paraCount= sizeof...Args + 1;
+			std::vector<int>intContainer(paraCount);
+			std::vector<unsigned long>lenghContainer(paraCount);
+			std::vector<double>doubleContainer(paraCount);
+			std::vector<unsigned char>charContainer(paraCount);
+			std::vector<SqlHelper::SQLString>strContainer(paraCount);
 			MYSQL_STMT* stmt = nullptr;
 			MYSQL_BIND* bind = new MYSQL_BIND[paramType.size()]();
 			memset(bind, 0, sizeof(MYSQL_BIND)*paramType.size());
@@ -172,11 +173,14 @@ namespace SqlHelper
 			if (!stmt)
 			{
 				fprintf(stderr, "mysql_stmt_init(), out of memory\n");
+				delete []bind;
 				return false;
 			}
 			if (mysql_stmt_prepare(stmt, query.c_str(), strlen(query.c_str())))
 			{
 				fprintf(stderr, "mysql_stmt_prepare() %s\n", mysql_stmt_error(stmt));
+				mysql_stmt_close(stmt);
+				delete []bind;
 				return false;
 			}
 			int index = 0;
@@ -241,12 +245,16 @@ namespace SqlHelper
 			if (code != 0)
 			{
 				fprintf(stderr, "%s\n", mysql_stmt_error(stmt));
+				mysql_stmt_close();
+				delete []bind;
 				return false;
 			}
 
 			if (mysql_stmt_execute(stmt))
 			{
 				fprintf(stderr, "mysql_stmt_execute() %s", mysql_stmt_error(stmt));
+				mysql_stmt_close();
+				delete []bind;
 				return false;
 			}
 			mysql_stmt_close(stmt);
@@ -262,10 +270,10 @@ namespace SqlHelper
 		// @Brief: 解析传入参数
 		//************************************
 		template <typename T, typename... Args>
-		void ParseParameter(const T& val, Args... rest)
+		void ParseParameter(std::vector<SqlHelper::SqlDataType>& paramType,const T& val, Args... rest)
 		{
 			paramType.push_back(SqlHelper::SqlDataType(val));
-			return ParseParameter(rest...);
+			return ParseParameter(paramType, rest...);
 		}
 
 		//************************************
@@ -275,7 +283,7 @@ namespace SqlHelper
 		// @Brief:	解析参数的非可变参数版本。
 		//************************************
 		template <typename T>
-		void ParseParameter(const T& val)
+		void ParseParameter(std::vector<SqlHelper::SqlDataType>&paramType,const T& val)
 		{
 			paramType.push_back(SqlHelper::SqlDataType(val));
 		}
