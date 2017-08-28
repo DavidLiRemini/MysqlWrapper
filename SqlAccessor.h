@@ -160,7 +160,7 @@ namespace SqlHelper
 			std::vector<SqlHelper::SqlDataType>paramType;
 			ParseParameter(paramType, value, rest...);
 			assert(!paramType.empty());
-			int paraCount= sizeof...Args + 1;
+			int paraCount= sizeof...(Args) + 1;
 			std::vector<int>intContainer(paraCount);
 			std::vector<unsigned long>lenghContainer(paraCount);
 			std::vector<double>doubleContainer(paraCount);
